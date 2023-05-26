@@ -12,10 +12,17 @@ This is a secure chat application that incorporates Caesar Cipher (ROT13), RSA, 
 
 1. Clone the repository:
 
-   ```git clone https://github.com/your-username/secure-chat-app.git```
+   - ```git clone https://github.com/your-username/secure-chat-app.git```
 
 2. Open the application:
    - Open the `index.html` file to access the secure chat app.
+ 
+## View the Application
+
+The secure chat app can be accessed at [View Demo](https://encryptionalgorithmspbl.netlify.app/).
+
+Please replace `https://example.com` with the actual URL where your deployed application can be accessed.
+
 
 ## Dependencies
 
