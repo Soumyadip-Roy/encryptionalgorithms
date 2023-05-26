@@ -11,7 +11,23 @@ This is a secure chat application that incorporates Caesar Cipher (ROT13), RSA, 
 ## Setup and Installation
 
 1. Clone the repository:
+
 ```git clone https://github.com/your-username/secure-chat-app.git```
 
+2. Open the application:
+   - Open the `index.html` file to access the secure chat app.
 
+## Dependencies
+
+This project relies on the following dependencies:
+
+- Encryption Libraries: Libraries for implementing Caesar Cipher (ROT13), RSA, and AES algorithms
+
+## Contributing
+
+Contributions to this project are welcome. If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
 
