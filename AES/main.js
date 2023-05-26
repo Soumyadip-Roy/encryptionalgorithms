@@ -132,3 +132,7 @@ messagebox.addEventListener("keydown", function (e) {
   }
   console.log(messageText)
 });
+const sendbtn = document.querySelector(".send-button");
+sendbtn.addEventListener('click',()=>{
+  send(messageText);
+})
