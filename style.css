@@ -1,4 +1,4 @@
-* {
+body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -13,7 +13,7 @@
   gap: 1rem;  
 }
 h3{
-  color:black;
+  
 }
 .links{
   display: flex;
@@ -51,7 +51,6 @@ a {
   height: 55px;
   width: 100%;
   background: #02316b;
-  padding: 4px;
   border-radius: 10px 10px 0 0;
 
 }
@@ -88,7 +87,7 @@ span.bottom-line {
 }
 
 .profile-photo {
-  width: 41px;
+  width: 47px;
   height: 90%;
   background: rgb(200, 200, 200);
   border-radius: 50%;
@@ -174,10 +173,7 @@ span.bottom-line {
   border-radius: 20px;
   border: none;
   color: rgb(0, 0, 0);
-}
-
-.send-button:focus {
-  border: none;
+  background-color: #e4e4e4;
 }
 
 .encryptKey input::-webkit-scrollbar-thumb {
