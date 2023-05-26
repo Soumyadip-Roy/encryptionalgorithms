@@ -21,9 +21,6 @@ This is a secure chat application that incorporates Caesar Cipher (ROT13), RSA, 
 
 The secure chat app can be accessed at [View Demo](https://encryptionalgorithmspbl.netlify.app/).
 
-Please replace `https://example.com` with the actual URL where your deployed application can be accessed.
-
-
 ## Dependencies
 
 This project relies on the following dependencies:
