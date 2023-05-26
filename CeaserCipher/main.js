@@ -6,133 +6,226 @@ const phone1 = document.querySelector(".chats__phone1");
 const phone2 = document.querySelector(".chats__phone2");
 const phone3 = document.querySelector(".chats__phone3");
 
-// Encryption function
-async function encryptAES(key, plaintext) {
-  const encodedText = new TextEncoder().encode(plaintext);
-  const cryptoKey = await window.crypto.subtle.importKey(
-    "raw",
-    key,
-    "AES-CBC",
-    true,
-    ["encrypt"]
-  );
+let letters = [" ",
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G", 
+  "H", 
+  "I", 
+  "J", 
+  "K", 
+  "L", 
+  "M", 
+  "N", 
+  "O", 
+  "P", 
+  "Q", 
+  "R", 
+  "S", 
+  "T", 
+  "U", 
+  "V", 
+  "W", 
+  "X", 
+  "Y", 
+  "Z",
+  "z",
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z",
+]
 
-  const iv = window.crypto.getRandomValues(new Uint8Array(16));
-  const ciphertext = await window.crypto.subtle.encrypt(
-    { name: "AES-CBC", iv: iv },
-    cryptoKey,
-    encodedText
-  );
-
-  const combined = new Uint8Array(iv.length + ciphertext.byteLength);
-  combined.set(iv, 0);
-  combined.set(new Uint8Array(ciphertext), iv.length);
-  return combined;
-}
-
-// Decryption function
-async function decryptAES(key, ciphertext) {
-  const cryptoKey = await window.crypto.subtle.importKey(
-    "raw",
-    key,
-    "AES-CBC",
-    true,
-    ["decrypt"]
-  );
-
-  const iv = ciphertext.slice(0, 16);
-  const data = ciphertext.slice(16);
-  const decryptedData = await window.crypto.subtle.decrypt(
-    { name: "AES-CBC", iv: iv },
-    cryptoKey,
-    data
-  );
-
-  return new TextDecoder().decode(decryptedData);
-}
-
-// Generate a random 256-bit key
-const key = window.crypto.getRandomValues(new Uint8Array(32));
-
-// Encrypt a message
-var ct='', pt='';
+let encryptionKey = 0;
+let decryptionKey = 0;
 let messageText = [];
 
-const senderSend = (mssge) => {
-  let senderCht = document.createElement("div");
-  let senderMssg = document.createElement("div");
-  senderCht.classList.add("sender", "chat", "chat-sent");
-  senderMssg.classList.add("sender", "message-sent");
-  senderMssg.innerText = mssge;
-  senderCht.appendChild(senderMssg);
-  phone1.appendChild(senderCht);
-};
+let cnt = 0;
+let cnt1 = 0;
 
-const hckrReceive = (mssge) => {
-  let text = mssge;
-  console.log(text);
-    
+encryptKey.forEach(input => {input.addEventListener('click', function() {
+  encryptionKey = input.valueAsNumber; 
+})});
+decryptKey.forEach(input => {input.addEventListener('click', function() {
+  decryptionKey = input.valueAsNumber;
+})});
+
+function caesarCipher(stringArray, key) {
+  const resultArray = [];
+
+  for (let i = 0; i < stringArray.length; i++) {
+    const originalString = stringArray[i];
+    let cipheredString = '';
+
+    for (let j = 0; j < originalString.length; j++) {
+      const char = originalString[j];
+      
+      // Check if the character is a letter
+      if (char.match(/[a-z]/i)) {
+        const charCode = originalString.charCodeAt(j);
+        let cipheredCharCode;
+
+        // Determine the new character code based on the key
+        if (char === char.toLowerCase()) {
+          cipheredCharCode = ((charCode - 97 + key) % 26) + 97; // Lowercase letters
+        } else {
+          cipheredCharCode = ((charCode - 65 + key) % 26) + 65; // Uppercase letters
+        }
+
+        cipheredString += String.fromCharCode(cipheredCharCode);
+      } else {
+        // Append non-letter characters as they are
+        cipheredString += char;
+      }
+    }
+
+    resultArray.push(cipheredString);
+  }
+
+  return resultArray;
+}
+
+function dcaesarCipher(stringArray, key, decrypt = false) {
+  const resultArray = [];
+
+  for (let i = 0; i < stringArray.length; i++) {
+    const originalString = stringArray[i];
+    let transformedString = '';
+
+    for (let j = 0; j < originalString.length; j++) {
+      const char = originalString[j];
+      
+      // Check if the character is a letter
+      if (char.match(/[a-z]/i)) {
+        const charCode = originalString.charCodeAt(j);
+        let transformedCharCode;
+
+        if (decrypt) {
+          // Perform decryption by shifting the character code back by the key
+          if (char === char.toLowerCase()) {
+            transformedCharCode = ((charCode - 97 - key + 26) % 26) + 97; // Lowercase letters
+          } else {
+            transformedCharCode = ((charCode - 65 - key + 26) % 26) + 65; // Uppercase letters
+          }
+        } else {
+          // Perform encryption by shifting the character code forward by the key
+          if (char === char.toLowerCase()) {
+            transformedCharCode = ((charCode - 97 + key) % 26) + 97; // Lowercase letters
+          } else {
+            transformedCharCode = ((charCode - 65 + key) % 26) + 65; // Uppercase letters
+          }
+        }
+
+        transformedString += String.fromCharCode(transformedCharCode);
+      } else {
+        // Append non-letter characters as they are
+        transformedString += char;
+      }
+    }
+
+    resultArray.push(transformedString);
+  }
+
+  return resultArray;
+}
+
+
+const bobSend = mssge => {
+  let text = '';
+   mssge.map(letter => {
+    text += letter;
+  });
+  let BobCht = document.createElement("div");
+  let BobMssg = document.createElement("div");
+  BobCht.classList.add("Bob", "chat", "chat-sent");
+  BobMssg.classList.add("Bob", "message-sent");
+  BobMssg.innerText = text;
+  BobCht.appendChild(BobMssg);
+  phone1.appendChild(BobCht);
+}
+
+const hckrReceive = mssge => {
+  let text = '';
+   mssge.map(letter => {
+    text += letter;
+  });
   let hckrCht = document.createElement("div");
   let hckrMssg = document.createElement("div");
-  hckrCht.classList.add("sender", "chat", "chat-sent");
-  hckrMssg.classList.add("sender", "message-sent");
+  hckrCht.classList.add("Bob", "chat", "chat-sent");
+  hckrMssg.classList.add("Bob", "message-sent");
   hckrMssg.innerText = text;
   hckrCht.appendChild(hckrMssg);
   phone2.appendChild(hckrCht);
-};
+  console.log(text);
+}
 
-const recieverReceive = (mssge) => {
-  let recieverCht = document.createElement("div");
-  let recieverMssg = document.createElement("div");
-  recieverCht.classList.add("reciever", "chat", "chat-received");
-  recieverMssg.classList.add("reciever", "message-received");
-  recieverMssg.innerText = mssge;
-  recieverCht.appendChild(recieverMssg);
-  phone3.appendChild(recieverCht);
-};
-
-const ats = (arr) => {
-  var message = "";
-  arr.forEach((a) => {
-    message += a;
+const AshlyReceive = mssge => {
+  let text = '';
+   mssge.map(letter => {
+    text += letter;
   });
-  return message;
-};
+  let AshCht = document.createElement("div"); 
+  let AshMssg = document.createElement("div");
+  AshCht.classList.add("Ashley","chat", "chat-received")
+  AshMssg.classList.add("Ashley", "message-received");
+  AshMssg.innerText = text;
+  AshCht.appendChild(AshMssg);
+  phone3.appendChild(AshCht);
+}
 
-const send = (messageText) => {
 
-  encryptAES(key, ats(messageText))
-    .then((ciphertext) => {
-      console.log("Ciphertext:", ciphertext);
-      ct = ciphertext;
-      // Decrypt the ciphertext
-      decryptAES(key, ciphertext)
-        .then((plaintext) => {
-          console.log("Plaintext:", plaintext);
-          pt = plaintext;
-          senderSend(pt);
-          hckrReceive(ct);
-          recieverReceive(pt);
-        })
-    })
-    .catch((error) => {
-      console.error("Encryption error:", error);
-    });
-  messagebox.value = null;
-};
+const send = (mssge) => {
+  let enkeys = [];
+  messageToSend = caesarCipher(messageText, encryptionKey);
+  enkeys = dcaesarCipher(messageToSend, decryptionKey, true);
+  bobSend(enkeys);
+  hckrReceive(messageToSend);
+  AshlyReceive(enkeys);
+  messagebox.value = "";
+}
 
-messagebox.addEventListener("keydown", function (e) {
-  if (e.keyCode === 8) {
-    messageText.pop();
-  } else if (e.keyCode === 13) {
+messagebox.addEventListener('keydown', function(e) {
+  if(e.keyCode === 8){
+    messageText.pop()
+}
+  else if(e.keyCode === 13){
     send(messageText);
     messageText = [];
-  } else {
+  }
+  else{
     messageText.push(e.key);
   }
-  console.log(messageText)
 });
+
 const sendbtn = document.querySelector(".send-button");
 sendbtn.addEventListener('click',()=>{
   send(messageText);
 })
+
+
