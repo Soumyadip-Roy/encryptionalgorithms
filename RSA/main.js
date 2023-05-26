@@ -168,3 +168,8 @@ messagebox.addEventListener("keydown", function (e) {
     messageText.push(e.key);
   }
 });
+
+const sendbtn = document.querySelector(".send-button");
+sendbtn.addEventListener('click',()=>{
+  send(messageText);
+})
