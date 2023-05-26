@@ -12,7 +12,7 @@ This is a secure chat application that incorporates Caesar Cipher (ROT13), RSA, 
 
 1. Clone the repository:
 
-```git clone https://github.com/your-username/secure-chat-app.git```
+   ```git clone https://github.com/your-username/secure-chat-app.git```
 
 2. Open the application:
    - Open the `index.html` file to access the secure chat app.
